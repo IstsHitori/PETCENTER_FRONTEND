@@ -1,10 +1,10 @@
-import PatientDetails from "@/components/PatientDetails";
+import PatientDetails from "@/components/patient/PatientDetails";
 import { useVeterinarieStore } from "@/stores/useVeterinarieStore";
 import add from "/add.svg";
-import PatientSelectedView from "@/components/PatientSelectedView";
+import PatientSelectedView from "@/components/patient/PatientSelectedView";
 import { useEffect } from "react";
-import ModalAddPatient from "@/components/ModalAddPatient";
-import ModalUpdatePatient from "@/components/ModalUpdatePatient";
+import ModalAddPatient from "@/components/patient/ModalAddPatient";
+import ModalUpdatePatient from "@/components/patient/ModalUpdatePatient";
 
 export default function ViewPatients() {
   const fetchPatients = useVeterinarieStore((state) => state.fetchPatients);

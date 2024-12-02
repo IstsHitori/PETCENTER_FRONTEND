@@ -2,42 +2,58 @@ import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { useVeterinarieStore } from "@/stores/useVeterinarieStore";
 import gato from "/gato.svg";
-import { AddPatient } from "@/types/PatientTypes";
-import Error from "./Error";
+import {Patient, UpdatePatient } from "@/types/PatientTypes";
+import Error from "../Error";
 import { listTypePetDefault } from "@/helpers";
 import { listSizePetDefault } from "@/helpers";
+import { useEffect } from "react";
 
-export default function ModalAddPatient() {
-  const isActivateModalAddPatient = useVeterinarieStore(
-    (state) => state.isActivateModalAddPatient
-  );
+export default function ModalUpdatePatient() {
+  const isUpdatePatient = useVeterinarieStore((state) => state.isUpdatePatient);
   //---
-  const activateModalAddPatient = useVeterinarieStore(
-    (state) => state.activateModalAddPatient
+  const setUpdatePatient = useVeterinarieStore(
+    (state) => state.setUpdatePatient
   );
-  //---
-  const addNewPatient = useVeterinarieStore((state) => state.addNewPatient);
+  const patientSelected = useVeterinarieStore((state) => state.patientSelected);
+  const updatePatient = useVeterinarieStore((state) => state.updatePatient);
+  const selectPatient = useVeterinarieStore((state) => state.selectPatient);
   //---
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
-  } = useForm<AddPatient>();
+  } = useForm<UpdatePatient>();
 
-  const handlePatient = async (data: AddPatient) => {
+  const handlePatient = async (data: UpdatePatient) => {
     data.hasVaccine = data.hasVaccine.toString() == "true" ? true : false;
-    await addNewPatient(data as AddPatient);
+    data.state = data.state.toString() == "true" ? true : false;
+    await updatePatient(data, patientSelected._id);
+    setUpdatePatient(false);
+    selectPatient({} as Patient);
     reset();
   };
+
+  useEffect(() => {
+    setValue("name", patientSelected.name);
+    setValue("propietor", patientSelected.propietor);
+    setValue("docPropietor", patientSelected.docPropietor);
+    setValue("telephone", patientSelected.telephone);
+    setValue("symptoms", patientSelected.symptoms);
+    setValue("typePet", patientSelected.typePet);
+    setValue("size", patientSelected.size);
+    setValue("hasVaccine", patientSelected.hasVaccine);
+    setValue("state", patientSelected.state);
+  }, [patientSelected,isUpdatePatient]);
   return (
     <>
       <Dialog
-        open={isActivateModalAddPatient}
+        open={isUpdatePatient}
         as="div"
         className="relative z-10 focus:outline-none"
         onClose={() => {
-          activateModalAddPatient(false);
+          setUpdatePatient(false);
           reset();
         }}
         __demoMode
@@ -55,7 +71,9 @@ export default function ModalAddPatient() {
                 as="h3"
                 className="text-base mb-4 text-center font-medium text-black"
               >
-                Agreguemos un nuevo paciente !!
+                <p className="inline-block">
+                  Actualicemos el paciente {patientSelected.name}
+                </p>
                 <span>
                   <img
                     className="inline-block"
@@ -259,19 +277,25 @@ export default function ModalAddPatient() {
                 </div>
 
                 <div className="flex flex-col mt-2">
-                  <label htmlFor="date" className="text-sm/6 text-black/90">
-                    Fecha de alta
+                  <label
+                    htmlFor="hasVaccine"
+                    className="text-sm/6 text-black/90"
+                  >
+                    Estado del paciente
                   </label>
-                  <input
-                    className="outline-none text-sm"
-                    type="date"
-                    id="date"
-                    {...register("date", {
-                      required: "Elija la fecha de alta",
+                  <select
+                    id="state"
+                    className="outline-none border rounded-lg px-2 text-sm h-8 focus:border-zinc-400"
+                    {...register("state", {
+                      required: "Elija un opción",
                     })}
-                  />
-                  {errors.date && (
-                    <Error message={errors.date.message as string} />
+                  >
+                    <option value="">- Seleccione una opción -</option>
+                    <option value={`${"true"}`}>Activo</option>
+                    <option value="false">Inactivo</option>
+                  </select>
+                  {errors.state && (
+                    <Error message={errors.state.message as string} />
                   )}
                 </div>
 
@@ -279,7 +303,7 @@ export default function ModalAddPatient() {
                   <input
                     className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none hover:bg-gray-600 focus:outline-1 cursor-pointer data-[focus]:outline-white "
                     type="submit"
-                    value={"Registrar paciente"}
+                    value={"Actualizar paciente"}
                   />
                 </div>
               </div>
