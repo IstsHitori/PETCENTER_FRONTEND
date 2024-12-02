@@ -106,7 +106,7 @@ export const createPatientSlice: StateCreator<IPatientSlice> = (set, get) => ({
       await get().fetchPatients();
     } catch (error) {
       toast.error(
-        "Ha ocurrido un error al agregar el paciante, pueden haber datos vacíos o la imagen del paciente pesa mucho"
+        "Ha ocurrido un error al agregar el paciante, pueden haber datos vacíos"
       );
       console.log(error);
     }

@@ -23,7 +23,6 @@ export default function PatientSelectedView() {
     name,
     propietor,
     telephone,
-    date,
     symptoms,
     state,
     typePet,
@@ -135,20 +134,6 @@ export default function PatientSelectedView() {
               </div>
             </div>
 
-            <div className="flex gap-3 border-b">
-              <img
-                className="rounded-full bg-zinc-50 size-9 border p-2"
-                src={imgDate}
-                alt="fecha"
-                width={17}
-              />
-              <div>
-                <p className="text-sm  text-zinc-600">Fecha de alta</p>
-                <p className="font-semibold text-[13.5px]">
-                  {formatDate(date)}
-                </p>
-              </div>
-            </div>
 
             <div className="flex gap-3 border-b">
               <img
