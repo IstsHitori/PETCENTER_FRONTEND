@@ -5,7 +5,6 @@ export const PatientSchema = object({
   propietor: string(),
   docPropietor: string(),
   telephone: string(),
-  date: string(),
   state: boolean(),
   createdAt:string(),
   updatedAt:string(),

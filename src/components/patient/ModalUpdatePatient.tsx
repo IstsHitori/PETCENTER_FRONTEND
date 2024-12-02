@@ -44,6 +44,7 @@ export default function ModalUpdatePatient() {
     setValue("typePet", patientSelected.typePet);
     setValue("size", patientSelected.size);
     setValue("hasVaccine", patientSelected.hasVaccine);
+
     setValue("state", patientSelected.state);
   }, [patientSelected,isUpdatePatient]);
   return (
@@ -199,7 +200,6 @@ export default function ModalUpdatePatient() {
                     placeholder="Sintomas"
                     className="min-h-24 outline-none border rounded-lg px-2 text-sm h-8 focus:border-zinc-400"
                     {...register("symptoms", {
-                      required: "Escriba los sintomas",
                     })}
                   ></textarea>
                   {errors.symptoms && (
@@ -268,7 +268,7 @@ export default function ModalUpdatePatient() {
                     })}
                   >
                     <option value="">- Seleccione una opción -</option>
-                    <option value={`${"true"}`}>Sí</option>
+                    <option value="true">Sí</option>
                     <option value="false">No</option>
                   </select>
                   {errors.hasVaccine && (
@@ -278,7 +278,7 @@ export default function ModalUpdatePatient() {
 
                 <div className="flex flex-col mt-2">
                   <label
-                    htmlFor="hasVaccine"
+                    htmlFor="state"
                     className="text-sm/6 text-black/90"
                   >
                     Estado del paciente
@@ -286,12 +286,13 @@ export default function ModalUpdatePatient() {
                   <select
                     id="state"
                     className="outline-none border rounded-lg px-2 text-sm h-8 focus:border-zinc-400"
+                    
                     {...register("state", {
                       required: "Elija un opción",
                     })}
                   >
                     <option value="">- Seleccione una opción -</option>
-                    <option value={`${"true"}`}>Activo</option>
+                    <option value="true">Activo</option>
                     <option value="false">Inactivo</option>
                   </select>
                   {errors.state && (

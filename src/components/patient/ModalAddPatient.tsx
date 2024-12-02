@@ -180,9 +180,7 @@ export default function ModalAddPatient() {
                     id="symptoms"
                     placeholder="Sintomas"
                     className="min-h-24 outline-none border rounded-lg px-2 text-sm h-8 focus:border-zinc-400"
-                    {...register("symptoms", {
-                      required: "Escriba los sintomas",
-                    })}
+                    {...register("symptoms", {})}
                   ></textarea>
                   {errors.symptoms && (
                     <Error message={errors.symptoms.message as string} />
@@ -255,23 +253,6 @@ export default function ModalAddPatient() {
                   </select>
                   {errors.hasVaccine && (
                     <Error message={errors.hasVaccine.message as string} />
-                  )}
-                </div>
-
-                <div className="flex flex-col mt-2">
-                  <label htmlFor="date" className="text-sm/6 text-black/90">
-                    Fecha de alta
-                  </label>
-                  <input
-                    className="outline-none text-sm"
-                    type="date"
-                    id="date"
-                    {...register("date", {
-                      required: "Elija la fecha de alta",
-                    })}
-                  />
-                  {errors.date && (
-                    <Error message={errors.date.message as string} />
                   )}
                 </div>
 
