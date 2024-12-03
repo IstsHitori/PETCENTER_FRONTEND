@@ -1,14 +1,24 @@
 import { Patient } from "@/types/PatientTypes";
 import { getImageByTypePet } from "@/helpers";
-import imgPerson from "/person.svg"
-
+import imgPerson from "/person.svg";
+import { useVeterinarieStore } from "@/stores/useVeterinarieStore";
 interface IInfoPatient {
   patient: Patient;
 }
 export default function InfoPatient({ patient }: IInfoPatient) {
-    const {typePet,name,propietor,state} = patient;
+  const { typePet, name, propietor, state, _id } = patient;
+  const setIdPatient = useVeterinarieStore((state) => state.setIdPatient);
+  const setSheetModallHistory = useVeterinarieStore(
+    (state) => state.setSheetModallHistory
+  );
   return (
-    <div className="flex sticky gap-5 border-b border-b-zinc-200 py-3 w-full transition-all shadow-gray-200 rounded-md">
+    <div
+      onClick={() => {
+        setIdPatient(_id);
+        setSheetModallHistory(true);
+      }}
+      className="flex cursor-pointer hover:bg-gray-50/40 sticky gap-5 border-b border-b-zinc-200 py-3 w-full transition-all shadow-gray-200 rounded-md"
+    >
       <img
         className="p-3 size-16 border rounded-xl"
         src={`/${getImageByTypePet(typePet)}`}

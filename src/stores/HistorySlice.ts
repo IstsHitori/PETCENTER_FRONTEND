@@ -11,9 +11,11 @@ import { HistoriesSchema } from "@/schemas/History";
 export interface IHistorySlice {
   idPatient: Patient["_id"];
   patient: Patient;
+  isSheetModalHistory:boolean;
   isModalAddHistorie: boolean;
   setIdPatient: (id: Patient["_id"]) => void;
   setModalAddHistorie: (state: boolean) => void;
+  setSheetModallHistory: (state: boolean) => void;
   searchPatientById: () => Promise<void>;
   createHistory: (history: AddHistory) => Promise<void>;
   getHistorysByPatient: (id: Patient["_id"]) => Promise<Histories>;
@@ -22,6 +24,7 @@ export interface IHistorySlice {
 export const createHistorySlice: StateCreator<IHistorySlice> = (set, get) => ({
   idPatient: "",
   isModalAddHistorie: false,
+  isSheetModalHistory:false,
   patient: {} as Patient,
   setIdPatient: (id: Patient["_id"]) => {
     set(() => ({
@@ -31,6 +34,11 @@ export const createHistorySlice: StateCreator<IHistorySlice> = (set, get) => ({
   setModalAddHistorie: (state: boolean) => {
     set(() => ({
       isModalAddHistorie: state,
+    }));
+  },
+  setSheetModallHistory: (state:boolean) => {
+    set(() => ({
+      isSheetModalHistory:state
     }));
   },
   searchPatientById: async () => {
