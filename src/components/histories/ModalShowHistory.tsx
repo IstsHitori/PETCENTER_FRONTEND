@@ -7,18 +7,24 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import { ScrollArea } from "../ui/scroll-area";
 import { useVeterinarieStore } from "@/stores/useVeterinarieStore";
 import { useState, useEffect } from "react";
 import { getImageByTypePet } from "@/helpers";
 import { History } from "@/types/HistoryTypes";
 import imgPerson from "/person.svg";
 import { toast } from "react-toastify";
+import { formatDate } from "@/helpers";
 
 export default function ModalShowHistory({ patient }: { patient: Patient }) {
   //---
   const { _id, typePet, name, state, propietor } = patient;
   const getHistorysByPatient = useVeterinarieStore(
     (state) => state.getHistorysByPatient
+  );
+
+  const isModalAddHistorie = useVeterinarieStore(
+    (state) => state.isModalAddHistorie
   );
 
   const [patientHistories, setPatientHistories] = useState<History[]>([]);
@@ -35,13 +41,11 @@ export default function ModalShowHistory({ patient }: { patient: Patient }) {
     };
 
     fetchHistories();
-  }, [getHistorysByPatient, _id]);
+  }, [_id, getHistorysByPatient, isModalAddHistorie]);
 
   //---
-
-  console.log(patientHistories);
   return (
-    <Sheet key={patient._id}>
+    <Sheet>
       {/* Información del pacient */}
       <SheetTrigger asChild>
         <article className="flex sticky gap-5 border-b border-b-zinc-200 py-3 w-full shadow-gray-200 rounded-md mb-4 hover:bg-muted/50 transition-colors cursor-pointer">
@@ -74,20 +78,27 @@ export default function ModalShowHistory({ patient }: { patient: Patient }) {
           <SheetTitle>Historia Clínica de {patient.name}</SheetTitle>
           <SheetDescription>Dueño: {patient.propietor}</SheetDescription>
         </SheetHeader>
-        <div className="mt-6">
+        <div className="mt-6 overflow-auto">
           <h3 className="text-lg font-semibold mb-4">Registros Médicos</h3>
-          {patientHistories.length < 1 ? (
-            <p className="text-red-600">No hay hisotrias para este paciente</p>
-          ) : (
-            patientHistories.map((record, index) => (
-              <div key={index} className="mb-4 p-4 bg-muted rounded-lg">
-                <p className="font-medium">{record.date}</p>
-                <p className="text-sm text-muted-foreground">
-                  {record.history}
-                </p>
-              </div>
-            ))
-          )}
+          <ScrollArea className="h-[400px] 2xl:h-[850px] rounded-md border p-4">
+            {patientHistories.length < 1 ? (
+              <p className="text-red-600">
+                No hay hisotrias para este paciente
+              </p>
+            ) : (
+              patientHistories.map((record, index) => (
+                <div key={index} className="mb-4 p-4 bg-muted rounded-lg">
+                  <p className="font-medium">{formatDate(record.date)}</p>
+                  <textarea
+                    disabled
+                    className=" p-1 text-sm text-muted-foreground w-full h-[90px] outline-none rounded-md"
+                  >
+                    {record.history}
+                  </textarea>
+                </div>
+              ))
+            )}
+          </ScrollArea>
         </div>
       </SheetContent>
     </Sheet>
