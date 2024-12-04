@@ -33,10 +33,6 @@ export const dataHistory = {
     url: "/dashboard/historias/ver-historias",
     link_text: "Ver historias clínicas",
   },
-  item_2: {
-    url: "/dashboard/historias/agregar-historia",
-    link_text: "Agregar historia",
-  },
 };
 
 export const dataVaccine = {

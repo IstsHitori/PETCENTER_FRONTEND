@@ -6,7 +6,6 @@ import ConfirmAccount from "./views/ConfirmAccount";
 import RouteProtected from "./layouts/RouteProtected";
 import DashBoard from "./views/DashBoard";
 import ViewPatients from "./views/ViewPatients";
-import AddMedicalHisotory from "./views/AddMedicalHisotory";
 import ViewHistories from "./views/ViewHistories";
 export const router = createBrowserRouter([
   {
@@ -42,10 +41,6 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/historias/ver-historias",
         element:<ViewHistories />
-      },
-      {
-        path: "/dashboard/historias/agregar-historia",
-        element: <AddMedicalHisotory />,
       },
     ],
   },

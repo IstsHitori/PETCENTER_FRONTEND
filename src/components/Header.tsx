@@ -4,6 +4,7 @@ import dashboard from "/dashboard.png";
 import logout from "/logout.png";
 import cat from "/cat.png";
 import person from "/person.png";
+import medical from "/medical.png";
 import { NavLink } from "react-router-dom";
 import settings from "/settings.png";
 import { useVeterinarieStore } from "../stores/useVeterinarieStore";
@@ -12,7 +13,6 @@ import { useLocation } from "react-router-dom";
 import {
   dataProducts,
   dataPatients,
-  dataHistory,
   dataVaccine,
 } from "@/helpers";
 
@@ -80,7 +80,17 @@ export default function Header() {
                 <Acordion data={dataPatients} />
               </li>
               <li>
-                <Acordion data={dataHistory} />
+                <NavLink
+                  className={`${
+                    pathname === "/dashboard/historias/ver-historias"
+                      ? "font-semibold underline bg-zinc-100"
+                      : "hover:bg-zinc-100"
+                  } flex p-2 transition-all rounded-md items-center text-sm gap-4`}
+                  to={"/dashboard/historias/ver-historias"}
+                >
+                  <img src={medical} alt="inicio" width={20} />
+                  Historias
+                </NavLink>
               </li>
               <li>
                 <Acordion data={dataVaccine} />
@@ -150,7 +160,17 @@ export default function Header() {
             </NavLink>
           </li>
           <li>
-            <Acordion data={dataHistory} />
+            <NavLink
+              className={`${
+                pathname === "/dashboard/historias/ver-historias"
+                  ? "font-semibold underline bg-zinc-100"
+                  : "hover:bg-zinc-100"
+              } flex p-2 transition-all rounded-md items-center text-sm gap-4`}
+              to={"/dashboard/historias/ver-historias"}
+            >
+              <img src={medical} alt="inicio" width={20} />
+              Historias
+            </NavLink>
           </li>
           <li>
             <Acordion data={dataProducts} />
