@@ -80,7 +80,7 @@ export default function ModalShowHistory({ patient }: { patient: Patient }) {
         </SheetHeader>
         <div className="mt-6 overflow-auto">
           <h3 className="text-lg font-semibold mb-4">Registros Médicos</h3>
-          <ScrollArea className="h-[400px] 2xl:h-[850px] rounded-md border p-4">
+          <ScrollArea className="h-[750px] md:h-[400px] 2xl:h-[850px] rounded-md border p-4">
             {patientHistories.length < 1 ? (
               <p className="text-red-600">
                 No hay hisotrias para este paciente
