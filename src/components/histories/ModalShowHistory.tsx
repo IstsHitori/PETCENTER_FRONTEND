@@ -83,7 +83,7 @@ export default function ModalShowHistory({ patient }: { patient: Patient }) {
           <ScrollArea className="h-[750px] md:h-[400px] 2xl:h-[850px] rounded-md border p-4">
             {patientHistories.length < 1 ? (
               <p className="text-red-600">
-                No hay hisotrias para este paciente
+                No hay historias para este paciente
               </p>
             ) : (
               patientHistories.map((record, index) => (

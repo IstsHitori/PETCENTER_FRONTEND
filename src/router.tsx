@@ -7,6 +7,7 @@ import RouteProtected from "./layouts/RouteProtected";
 import DashBoard from "./views/DashBoard";
 import ViewPatients from "./views/ViewPatients";
 import ViewHistories from "./views/ViewHistories";
+import ViewProducts from "./views/ViewProducts";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -41,6 +42,9 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/historias/ver-historias",
         element:<ViewHistories />
+      },   {
+        path: "/dashboard/productos/ver-productos",
+        element:<ViewProducts />
       },
     ],
   },
