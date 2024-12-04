@@ -67,18 +67,19 @@ export const createPatientSlice: StateCreator<IPatientSlice> = (set, get) => ({
       (patient) => patient.propietor.toLowerCase() === propietor.toLowerCase()
     );
 
-    if (filteredPatiens.length > 0) {
-      set(() => ({
-        patients: [...filteredPatiens],
-      }));
-      return;
-    }
     if (!propietor) {
       const patientsFetch = await getPatientsFetch();
       set(() => ({
         patients: patientsFetch,
       }));
     }
+    if (filteredPatiens.length > 0) {
+      set(() => ({
+        patients: [...filteredPatiens],
+      }));
+      return;
+    }
+
   },
   selectPatient: (patient: Patient) => {
     set(() => ({
