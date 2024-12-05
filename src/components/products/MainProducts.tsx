@@ -41,7 +41,6 @@ export default function MainProducts() {
   const products = useVeterinarieStore((state) => state.products);
   const deleteCategory = useVeterinarieStore((state) => state.deleteCategory);
   const deleteProduct = useVeterinarieStore((state) => state.deleteProduct);
-  const fetchCategories = useVeterinarieStore((state) => state.fetchCategories);
   const isActiveModalDetailsProduct = useVeterinarieStore(
     (state) => state.isActiveModalDetailsProduct
   );
@@ -68,10 +67,7 @@ export default function MainProducts() {
     filterAndSortProducts();
   }, [products, searchTerm, selectedCategory, sortCriteria, sortOrder]);
 
-  const handleDeleteCategory = async (IdcategoryToDelete: Category["_id"]) => {
-    await deleteCategory(IdcategoryToDelete);
-    await fetchCategories();
-  };
+ 
   //Products
   const handleDeleteProduct = async (productId: Product["_id"]) => {
     await deleteProduct(productId);
@@ -122,6 +118,9 @@ export default function MainProducts() {
   const handleCategoryChange = (value: Category["name"]) => {
     setSelectedCategory(value);
     filterProducts(searchTerm, value);
+  };
+  const handleDeleteCategory = async (IdcategoryToDelete: Category["_id"]) => {
+    await deleteCategory(IdcategoryToDelete);
   };
 
   return (

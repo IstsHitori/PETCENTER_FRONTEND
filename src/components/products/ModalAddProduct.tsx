@@ -39,19 +39,22 @@ export default function ModalAddProduct() {
     price: 0,
     witght: "",
     quantity: 0,
-    category: ""
+    category: "",
   });
 
-  const handleAddProduct = async(e: FormEvent<HTMLFormElement>) => {
+  const handleAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(Object.values(product).includes("")){
-        toast.error("No pueden haber campos vacíos");
-        return;
+    if (
+      Object.values(product).includes("") ||
+      Object.values(product).includes(0)
+    ) {
+      toast.error("Error, hay campos vacíos o valores en 0");
+      return;
     }
     await createProduct(product);
     await fetchProducts();
     setModalAddProduct(false);
-};
+  };
   return (
     <Dialog open={isActviveModalAddProduct} onOpenChange={setModalAddProduct}>
       <DialogTrigger asChild>
@@ -71,9 +74,7 @@ export default function ModalAddProduct() {
           <div className="space-y-2">
             <Label htmlFor="category">Categoría</Label>
             <Select
-              onValueChange={(e) =>
-                setProduct({ ...product,category:e })
-              }
+              onValueChange={(e) => setProduct({ ...product, category: e })}
               required
             >
               <SelectTrigger>
@@ -105,10 +106,11 @@ export default function ModalAddProduct() {
               id="price"
               type="number"
               value={product.price}
+              min={0}
               onChange={(e) =>
                 setProduct({ ...product, price: +e.target.value })
               }
-              step="0.01"
+              step="100"
               required
             />
           </div>
@@ -117,6 +119,7 @@ export default function ModalAddProduct() {
             <Input
               id="stock"
               type="number"
+              min={1}
               value={product.quantity}
               onChange={(e) =>
                 setProduct({ ...product, quantity: +e.target.value })

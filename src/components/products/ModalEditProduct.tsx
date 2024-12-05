@@ -45,11 +45,19 @@ export default function ModalEditProduct() {
   });
   const handleEditProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(Object.values(newProduct).includes("") || Object.values(newProduct).includes(0)){
-        toast.error("Error, hay campos vacíos o valores en 0");
-        return;
+    if (
+      Object.values(newProduct).includes("") ||
+      Object.values(newProduct).includes(0)
+    ) {
+      toast.error("Error, hay campos vacíos o valores en 0");
+      return;
     }
-    await editProduct(newProduct);
+    const idCategory = categories.find(
+      (cat) => cat.name === newProduct.category
+    )?._id;
+    newProduct.category = idCategory as string;
+    await editProduct(newProduct, editingProduct._id);
+    setModalEditProduct(false);
   };
   return (
     <Dialog
@@ -74,7 +82,9 @@ export default function ModalEditProduct() {
               <Select
                 name="category"
                 defaultValue={editingProduct.category.name}
-                onValueChange={e => setNewProduct({...newProduct,category:e})}
+                onValueChange={(e) =>
+                  setNewProduct({ ...newProduct, category: e })
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Selecciona una categoría" />
@@ -96,7 +106,9 @@ export default function ModalEditProduct() {
                 id="edit-name"
                 name="name"
                 defaultValue={editingProduct.name}
-                onChange={e => setNewProduct({...newProduct,name:e.target.value})}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, name: e.target.value })
+                }
                 required
               />
             </div>
@@ -109,7 +121,9 @@ export default function ModalEditProduct() {
                 min={0}
                 step="100"
                 defaultValue={editingProduct.price}
-                onChange={e => setNewProduct({...newProduct,price:+e.target.value})}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, price: +e.target.value })
+                }
                 required
               />
             </div>
@@ -121,7 +135,9 @@ export default function ModalEditProduct() {
                 type="number"
                 min={0}
                 defaultValue={editingProduct.quantity}
-                onChange={e => setNewProduct({...newProduct,quantity:+e.target.value})}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, quantity: +e.target.value })
+                }
                 required
               />
             </div>
@@ -131,7 +147,9 @@ export default function ModalEditProduct() {
                 id="edit-brand"
                 name="brand"
                 defaultValue={editingProduct.brand}
-                onChange={e => setNewProduct({...newProduct,brand:e.target.value})}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, brand: e.target.value })
+                }
                 required
               />
             </div>
@@ -141,7 +159,9 @@ export default function ModalEditProduct() {
                 id="edit-witght"
                 name="witght"
                 defaultValue={editingProduct.witght}
-                onChange={e => setNewProduct({...newProduct,price:e.target.value})}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, witght: e.target.value })
+                }
                 required
               />
             </div>

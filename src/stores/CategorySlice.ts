@@ -82,7 +82,7 @@ export const createCategorySlice: StateCreator<ICategorySlice> = (
         toast.error("Ha habido un error al crear la categoria");
         return;
       }
-      toast.success("Se ha creado la categoria");
+      toast.success("Se ha eliminado la categoria");
       await get().fetchCategories();
     } catch (error) {
       toast.error("Ha ocurrido un error al eliminar la categoria");

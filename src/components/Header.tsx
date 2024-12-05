@@ -5,6 +5,7 @@ import logout from "/logout.png";
 import cat from "/cat.png";
 import person from "/person.png";
 import medical from "/medical.png";
+import producto from "/products.png";
 import { NavLink } from "react-router-dom";
 import settings from "/settings.png";
 import { useVeterinarieStore } from "../stores/useVeterinarieStore";
@@ -173,7 +174,17 @@ export default function Header() {
             </NavLink>
           </li>
           <li>
-            <Acordion data={dataProducts} />
+            <NavLink
+              className={`${
+                pathname === "/dashboard/productos/ver-productos"
+                  ? "font-semibold underline bg-zinc-100"
+                  : "hover:bg-zinc-100"
+              } flex p-2 transition-all rounded-md items-center text-sm gap-4`}
+              to={"/dashboard/productos/ver-productos"}
+            >
+              <img src={producto} alt="producto" width={20} />
+              Productos
+            </NavLink>
           </li>
           <li>
             <Acordion data={dataVaccine} />

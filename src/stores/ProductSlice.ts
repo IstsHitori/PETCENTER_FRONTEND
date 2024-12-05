@@ -20,7 +20,10 @@ export interface IProductSlice {
   setEditingProduct: (product: Product) => Promise<void>;
   createProduct: (product: AddProduct) => Promise<void>;
   deleteProduct: (idProduct: Product["_id"]) => Promise<void>;
-  editProduct: (newProduct: AddProduct) => Promise<void>;
+  editProduct: (
+    newProduct: AddProduct,
+    idProduct: Product["_id"]
+  ) => Promise<void>;
 }
 
 async function getProductsFetch() {
@@ -80,6 +83,7 @@ export const createProductSlice: StateCreator<IProductSlice> = (set, get) => ({
         return;
       }
       const data: string = response.data;
+      await get().fetchProducts();
       toast.success(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -109,11 +113,11 @@ export const createProductSlice: StateCreator<IProductSlice> = (set, get) => ({
       console.log(error);
     }
   },
-  editProduct: async (newProduct) => {
+  editProduct: async (newProduct, idProduct) => {
     try {
       const token = localStorage.getItem("pet-veterinaria-token") || "";
       const response = await clientAxios.put(
-        `/product/update-product`,
+        `/product/update-product/${idProduct}`,
         newProduct,
         config(token)
       );
@@ -126,7 +130,7 @@ export const createProductSlice: StateCreator<IProductSlice> = (set, get) => ({
       toast.success(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error("Ha habido un error al eliminar el producto");
+        toast.error(error.response?.data.msg);
       }
       console.log(error);
     }
