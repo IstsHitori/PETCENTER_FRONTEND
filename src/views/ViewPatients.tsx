@@ -25,14 +25,14 @@ export default function ViewPatients() {
     <div>
       <ModalAddPatient />
       <ModalUpdatePatient />
-      <div className=" flex flex-wrap justify-center md:justify-normal items-center gap-10 text-sm">
+      <div className=" flex flex-wrap justify-center md:justify-normal items-center gap-2 text-sm">
         <h1 className="px-3 text-md 2xl:text-lg underline">
           Se encontraron <strong>{patients.length}</strong> pacientes
         </h1>
 
         <div className="flex rounded-lg text-md gap-2 items-center">
           <p>Filtrar los pacientes</p>
-          <select onChange={async(e) => {setPatientFilter(e.target.value); await filterPatients(); }} className="outline-none border p-1  rounded-lg w-[200px]" name="" id="">
+          <select onChange={async(e) => {setPatientFilter(e.target.value); await filterPatients(); }} className="outline-none border p-1 rounded-lg w-[200px]" name="" id="">
             <option value="">Ninguno</option>
             <option value="name">Nombre</option>
             <option value="perro">Perro</option>

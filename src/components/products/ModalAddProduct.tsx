@@ -62,7 +62,7 @@ export default function ModalAddProduct() {
           <PlusCircle className="mr-2 h-4 w-4" /> Agregar Producto
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-svh overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Agregar Nuevo Producto</DialogTitle>
           <DialogDescription>

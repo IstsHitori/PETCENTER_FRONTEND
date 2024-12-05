@@ -23,7 +23,7 @@ export default function ViewHistories() {
 
           <ModalAddHistorie />
         </div>
-        <div className="flex gap-2 flex-col items-center md:flex-row  mt-2">
+        <div className="flex gap-2 flex-col text-sm items-center md:flex-row  mt-2">
           <label htmlFor="propietor">Busca el paciente por su propietario </label>
           <input type="text" onChange={(e) => {
             searchPatientByPropietor(e.target.value);

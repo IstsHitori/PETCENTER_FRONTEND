@@ -67,7 +67,8 @@ export default function ModalEditProduct() {
         setEditingProduct({} as Product);
       }}
     >
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-svh overflow-y-auto">
+        
         <DialogHeader>
           <DialogTitle>Editar Producto</DialogTitle>
           <DialogDescription>
@@ -76,7 +77,7 @@ export default function ModalEditProduct() {
           </DialogDescription>
         </DialogHeader>
         {editingProduct && (
-          <form onSubmit={handleEditProduct} className="space-y-4">
+          <form onSubmit={handleEditProduct} className="xl:space-y-4 space-y-2">
             <div className="space-y-2">
               <Label htmlFor="edit-category">Categoría</Label>
               <Select

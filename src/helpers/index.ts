@@ -72,3 +72,10 @@ export function getImageByTypePet(typePet: Patient["typePet"]) {
   const position = listTypePetDefault.findIndex((value) => value === typePet);
   return listImgTypePetDefault[position];
 }
+
+export const formatMoney = (money: number): string =>
+  new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    minimumFractionDigits: 0, 
+  }).format(money);

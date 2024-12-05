@@ -35,6 +35,7 @@ import { Category } from "@/types/CategoryTypes";
 import { Product } from "@/types/ProductTypes";
 import ModalDetailsProducts from "./ModalDetailsProducts";
 import ModalEditProduct from "./ModalEditProduct";
+import { formatMoney } from "@/helpers";
 
 export default function MainProducts() {
   const categories = useVeterinarieStore((state) => state.categories);
@@ -67,7 +68,6 @@ export default function MainProducts() {
     filterAndSortProducts();
   }, [products, searchTerm, selectedCategory, sortCriteria, sortOrder]);
 
- 
   //Products
   const handleDeleteProduct = async (productId: Product["_id"]) => {
     await deleteProduct(productId);
@@ -194,14 +194,13 @@ export default function MainProducts() {
               </div>
               <div className="flex justify-between">
                 <dt>Valor del Inventario:</dt>
-                <dd className="font-semibold">
-                  $
-                  {products
-                    .reduce(
+                <dd className="font-semibold text-green-500">
+                  {formatMoney(
+                    products.reduce(
                       (sum, product) => sum + product.price * product.quantity,
                       0
                     )
-                    .toFixed(2)}
+                  )}
                 </dd>
               </div>
             </dl>
@@ -262,7 +261,7 @@ export default function MainProducts() {
               <CardContent className="p-4">
                 <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
                 <div className="flex justify-between items-center">
-                  <span className="text-md font-bold">COP {product.price}</span>
+                  <span className="text-md font-bold">{formatMoney(product.price)}</span>
                   <span className="text-sm text-gray-500">
                     Stock: {product.quantity}
                   </span>
