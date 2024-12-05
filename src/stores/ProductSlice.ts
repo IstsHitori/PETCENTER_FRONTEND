@@ -13,6 +13,7 @@ export interface IProductSlice {
   isActiveModalAddProduct: boolean;
   setModalAddProduct: (state: boolean) => void;
   createProduct: (product: AddProduct) => Promise<void>;
+  setFilterProducts: (term: string, category: string) => void;
 }
 
 async function getProductsFetch() {
@@ -67,5 +68,16 @@ export const createProductSlice: StateCreator<IProductSlice> = (set, get) => ({
       }
       console.log(error);
     }
+  },
+  setFilterProducts: (term: string, category: string) => {
+    const products = [...get().products];
+    const filtered = products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(term) &&
+        (category === "todos" || product.category.name === category)
+    );
+    set(() => ({
+      products: filtered,
+    }));
   },
 });

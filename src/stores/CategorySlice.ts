@@ -6,13 +6,14 @@ import { CategoriesScehma } from "@/schemas/Category";
 import clientAxios from "@/config/axios";
 import { config } from "@/helpers/fetchAPI";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { Id, toast } from "react-toastify";
 export interface ICategorySlice {
   categories: Category[];
   isActiveModalAddCategory: boolean;
   fetchCategories: () => Promise<void>;
   setModalAddCategory: (state: boolean) => void;
   createCategory: (category: AddCategory) => Promise<void>;
+  deleteCategory: (idCategoryToDelete: Category["_id"]) => Promise<void>;
 }
 
 async function getCategoriesFetch() {
@@ -68,6 +69,24 @@ export const createCategorySlice: StateCreator<ICategorySlice> = (
         toast.error(error.response?.data.msg);
         return;
       }
+    }
+  },
+  deleteCategory: async (idCategoryToDelete) => {
+    try {
+      const token = localStorage.getItem("pet-veterinaria-token") || "";
+      const response = await clientAxios.delete(
+        `/category/delete-category/${idCategoryToDelete}`,
+        config(token)
+      );
+      if (response.status !== 200) {
+        toast.error("Ha habido un error al crear la categoria");
+        return;
+      }
+      toast.success("Se ha creado la categoria");
+      await get().fetchCategories();
+    } catch (error) {
+      toast.error("Ha ocurrido un error al eliminar la categoria");
+      console.log(error);
     }
   },
 });
