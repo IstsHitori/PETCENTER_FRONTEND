@@ -16,9 +16,9 @@ export default function ViewProducts() {
   }, []);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-3 " >
       <HeaderProducts />
-      <div className="flex flex-col md:flex-row gap-6">
+      <div className="flex flex-col md:flex-row gap-5">
         <MainProducts />
       </div>
     </div>

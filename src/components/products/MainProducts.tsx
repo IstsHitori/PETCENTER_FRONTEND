@@ -29,38 +29,59 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Badge } from "../ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEffect } from "react";
+import img_product from "/bg_product.png";
 import { Category } from "@/types/CategoryTypes";
 import { Product } from "@/types/ProductTypes";
+import ModalDetailsProducts from "./ModalDetailsProducts";
+import ModalEditProduct from "./ModalEditProduct";
 
 export default function MainProducts() {
   const categories = useVeterinarieStore((state) => state.categories);
   const products = useVeterinarieStore((state) => state.products);
   const deleteCategory = useVeterinarieStore((state) => state.deleteCategory);
+  const deleteProduct = useVeterinarieStore((state) => state.deleteProduct);
   const fetchCategories = useVeterinarieStore((state) => state.fetchCategories);
+  const isActiveModalDetailsProduct = useVeterinarieStore(
+    (state) => state.isActiveModalDetailsProduct
+  );
+  const isActiveModalEditProduct = useVeterinarieStore(
+    (state) => state.isActiveModalEditProduct
+  );
+  const setEditingProduct = useVeterinarieStore(
+    (state) => state.setEditingProduct
+  );
+  const setModalEditProduct = useVeterinarieStore(
+    (state) => state.setModalEditProduct
+  );
+  const setModalDetailsProduct = useVeterinarieStore(
+    (state) => state.setModalDetailsProduct
+  );
 
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("todos");
+  const [sortCriteria, setSortCriteria] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  useEffect(() => {
+    filterAndSortProducts();
+  }, [products, searchTerm, selectedCategory, sortCriteria, sortOrder]);
 
   const handleDeleteCategory = async (IdcategoryToDelete: Category["_id"]) => {
     await deleteCategory(IdcategoryToDelete);
     await fetchCategories();
   };
-
-  const handleDeleteProduct = (productId: Product["_id"]) => {};
+  //Products
+  const handleDeleteProduct = async (productId: Product["_id"]) => {
+    await deleteProduct(productId);
+  };
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
     filterProducts(term, selectedCategory);
   };
-
-  const handleCategoryChange = (value: Category["name"]) => {
-    setSelectedCategory(value);
-    filterProducts(searchTerm, value);
-  };
-
   const filterProducts = (term: string, category: Category["name"]) => {
     const filtered = products.filter(
       (product) =>
@@ -69,15 +90,49 @@ export default function MainProducts() {
     );
     setFilteredProducts(filtered);
   };
+
+  const handleSortChange = (value: string) => {
+    if (value === sortCriteria) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortCriteria(value);
+      setSortOrder("asc");
+    }
+  };
+
+  const filterAndSortProducts = () => {
+    const filtered = products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(searchTerm) &&
+        (selectedCategory === "todos" ||
+          product.category.name === selectedCategory)
+    );
+
+    filtered.sort((a, b) => {
+      if (a[sortCriteria] < b[sortCriteria])
+        return sortOrder === "asc" ? -1 : 1;
+      if (a[sortCriteria] > b[sortCriteria])
+        return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+    setFilteredProducts(filtered);
+  };
+  //---
+
+  const handleCategoryChange = (value: Category["name"]) => {
+    setSelectedCategory(value);
+    filterProducts(searchTerm, value);
+  };
+
   return (
     <>
-      <aside className="w-full md:w-64 space-y-6">
+      <aside className="w-full md:w-64 space-y-4">
         <Card>
           <CardHeader>
             <CardTitle>Categorías</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
+            <div className="space-y-2 max-h-[11rem] xl:max-h-[300px] overflow-auto">
               {categories.map((cat) => (
                 <div
                   key={cat._id}
@@ -87,7 +142,7 @@ export default function MainProducts() {
                     variant={
                       selectedCategory === cat.name ? "default" : "outline"
                     }
-                    className="w-full justify-start"
+                    className="w-full justify-start "
                     onClick={() => handleCategoryChange(cat.name)}
                   >
                     {cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}
@@ -129,7 +184,7 @@ export default function MainProducts() {
             <CardTitle>Resumen</CardTitle>
           </CardHeader>
           <CardContent>
-            <dl className="space-y-2">
+            <dl className="space-y-2 text-sm xl:text-[1rem]">
               <div className="flex justify-between">
                 <dt>Total de Productos:</dt>
                 <dd className="font-semibold">{products.length}</dd>
@@ -166,33 +221,40 @@ export default function MainProducts() {
               onChange={handleSearch}
             />
           </div>
-          <Select defaultValue="name">
+          <Select defaultValue={sortCriteria} onValueChange={handleSortChange}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Ordenar por" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="name">Nombre</SelectItem>
-              <SelectItem value="price">Precio</SelectItem>
-              <SelectItem value="stock">Stock</SelectItem>
+              <SelectItem value="name">
+                Nombre{" "}
+                {sortCriteria === "name" && (sortOrder === "asc" ? "↑" : "↓")}
+              </SelectItem>
+              <SelectItem value="price">
+                Precio{" "}
+                {sortCriteria === "price" && (sortOrder === "asc" ? "↑" : "↓")}
+              </SelectItem>
+              <SelectItem value="quantity">
+                Stock{" "}
+                {sortCriteria === "quantity" &&
+                  (sortOrder === "asc" ? "↑" : "↓")}
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 2xl:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 2xl:grid-cols-3 max-h-[370px] xl:max-h-[750px] overflow-y-auto">
           {filteredProducts.map((product) => (
-            <Card key={product._id} className="overflow-hidden max-w-[300px]">
-              <CardHeader className="p-0">
-                <div className="aspect-video relative">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="128"
-                    height="128"
-                    viewBox="0 0 2048 2048"
-                  >
-                    <path
-                      fill="#0099ff"
-                      d="m1344 2l704 352v785l-128-64V497l-512 256v258l-128 64V753L768 497v227l-128-64V354zm0 640l177-89l-463-265l-211 106zm315-157l182-91l-497-249l-149 75zm-507 654l-128 64v-1l-384 192v455l384-193v144l-448 224L0 1735v-676l576-288l576 288zm-640 710v-455l-384-192v454zm64-566l369-184l-369-185l-369 185zm576-1l448-224l448 224v527l-448 224l-448-224zm384 576v-305l-256-128v305zm384-128v-305l-256 128v305zm-320-288l241-121l-241-120l-241 120z"
-                    />
-                  </svg>
+            <Card
+              key={product._id}
+              className="overflow-hidden max-h-[360px] max-w-[270px]"
+            >
+              <CardHeader className="p-1">
+                <div className="aspect-video h-[150px] relative">
+                  <img
+                    src={img_product}
+                    className="bg-cover mt-4 w-[66%] mx-auto"
+                    alt={product.name}
+                  />
                   <Badge className="absolute top-2 right-2">
                     {product.category.name}
                   </Badge>
@@ -201,24 +263,29 @@ export default function MainProducts() {
               <CardContent className="p-4">
                 <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
                 <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold">
-                    ${product.price.toFixed(2)}
-                  </span>
+                  <span className="text-md font-bold">COP {product.price}</span>
                   <span className="text-sm text-gray-500">
                     Stock: {product.quantity}
                   </span>
                 </div>
               </CardContent>
               <CardFooter className="p-4 pt-0 flex space-y-2 flex-wrap">
-                <Button variant="outline" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => {
+                    setModalDetailsProduct(true);
+                    setEditingProduct(product);
+                  }}
+                >
                   <Package className="mr-2 h-4 w-4" /> Detalles
                 </Button>
                 <Button
                   variant="outline"
                   className="w-1/2"
                   onClick={() => {
-                    //setEditingProduct(product);
-                    //setIsEditDialogOpen(true);
+                    setModalEditProduct(true);
+                    setEditingProduct(product);
                   }}
                 >
                   <Edit className="mr-2 h-4 w-4" /> Editar
@@ -226,7 +293,13 @@ export default function MainProducts() {
 
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="outline" className="w-1/2 bg-red-400">
+                    <Button
+                      variant="outline"
+                      className="w-1/2 bg-red-500 text-white"
+                      onClick={() => {
+                        setEditingProduct(product);
+                      }}
+                    >
                       <Trash2 className="mr-2 h-4 w-4" /> Eliminar
                     </Button>
                   </AlertDialogTrigger>
@@ -241,8 +314,9 @@ export default function MainProducts() {
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancelar</AlertDialogCancel>
                       <AlertDialogAction
-                        onClick={() => {
-                          //ass
+                        onClick={async () => {
+                          await handleDeleteProduct(product._id);
+                          setEditingProduct(product);
                         }}
                       >
                         Eliminar
@@ -254,6 +328,8 @@ export default function MainProducts() {
             </Card>
           ))}
         </div>
+        {isActiveModalDetailsProduct && <ModalDetailsProducts />}
+        {isActiveModalEditProduct && <ModalEditProduct />}
       </main>
     </>
   );
