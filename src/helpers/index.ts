@@ -60,14 +60,22 @@ const listImgTypePetDefault = [
 
 export const listSizePetDefault = ["Pequeño", "Mediano", "Grande"];
 
-export const formatDate = (date: string) =>
-  new Date(date).toLocaleDateString("es-es", {
+export const formatDate = (date: string) => {
+  const formattedDate = new Date(date).toLocaleDateString("es-es", {
     weekday: "long",
     year: "numeric",
     month: "short",
     day: "numeric",
   });
 
+  const formattedTime = new Date(date).toLocaleTimeString("es-es", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  return `${formattedDate} ${formattedTime}`;
+};
 export function getImageByTypePet(typePet: Patient["typePet"]) {
   const position = listTypePetDefault.findIndex((value) => value === typePet);
   return listImgTypePetDefault[position];
