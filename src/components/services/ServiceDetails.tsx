@@ -7,12 +7,12 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { formatMoney, formattedDate, formattedTime } from "@/helpers";
 import { CalendarIcon, ClockIcon, PawPrintIcon } from "lucide-react";
 
 export default function ServiceDetails({ service }: { service: Service }) {
-  const { name, price, patient, state, date, product,days,type } = service;
+  const { name, price, patient, state, date, product, days, type } = service;
 
   return (
     <Card className="w-[350px] overflow-hidden">
@@ -34,8 +34,9 @@ export default function ServiceDetails({ service }: { service: Service }) {
             </div>
           </div>
           <Badge
-            variant={state === "pagado" ? "success" : "destructive"}
+            variant={state === "pagado" ? "outline" : "destructive"}
             className="capitalize"
+            
           >
             {state}
           </Badge>
@@ -65,13 +66,13 @@ export default function ServiceDetails({ service }: { service: Service }) {
               </div>
             </>
           )}
-                {name === "hospitalizacion" && (
+          {name === "hospitalizacion" && (
             <>
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Días</span>
                 <span className="text-sm">{days}</span>
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Tipo</span>
                 <span className="text-sm">{type}</span>

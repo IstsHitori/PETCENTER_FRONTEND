@@ -8,28 +8,34 @@ import { Service } from "@/types/ServiceTypes";
 export default function MainServices() {
   const services = useVeterinarieStore((state) => state.services);
 
-  const [filter, setFilter] = useState("todos");
+  const [filter, setFilter] = useState<Service["state"] | "todos">("todos");
   const [servicesFilter, setServicesFilter] = useState([...services]);
   const [searchPatient, setSearchPatient] = useState("");
 
-  const filterServices = (term: string, category: Service["state"]) => {
+  const filterServices = (term: string, category: Service["state"] | "todos") => {
     const filtered = services.filter(
       (serv) =>
-        serv.patient.name.toLowerCase().includes(term) &&
-        (category === "todos" || serv.state === category) || serv.patient.propietor.toLowerCase().includes(term)
+        (serv.patient.name.toLowerCase().includes(term) ||
+          serv.patient.propietor.toLowerCase().includes(term)) &&
+        (category === "todos" || serv.state === category)
     );
-    console.log(filtered)
     setServicesFilter(filtered);
   };
-  const handleCategoryChange = (category: Service["state"]) => {
+
+  const handleCategoryChange = (category: Service["state"] | "todos") => {
     setFilter(category);
-    filterServices(searchPatient,category);
-  }
+  };
+
+  const handleSearchChange = (term: string) => {
+    setSearchPatient(term.toLowerCase());
+  };
+  
 
   useEffect(() => {
     filterServices(searchPatient, filter);
-  }, [filter, searchPatient, setSearchPatient]);
+  }, [filter, searchPatient, services]);
 
+  console.log(servicesFilter)
   return (
     <div className="mt-4">
       <aside className="flex items-center justify-between">
@@ -60,7 +66,7 @@ export default function MainServices() {
         <Input
           className="max-w-[400px]"
           placeholder="Buscar por nombre de paciente o propietario"
-          onChange={(e) => setSearchPatient(e.target.value)}
+          onChange={(e) => handleSearchChange(e.target.value)}
         />
       </aside>
       <section className="mt-2 grid grid-cols-2 xl:grid-cols-3 gap-2 max-h-[400px] xl:max-h-[800px] overflow-y-auto">
