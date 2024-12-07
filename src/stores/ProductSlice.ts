@@ -7,6 +7,7 @@ import { safeParse } from "valibot";
 import { ProductsSchema } from "@/schemas/Product";
 import { toast } from "react-toastify";
 import axios from "axios";
+
 export interface IProductSlice {
   products: Product[];
   fetchProducts: () => Promise<void>;

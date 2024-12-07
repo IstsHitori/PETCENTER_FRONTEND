@@ -60,21 +60,23 @@ const listImgTypePetDefault = [
 
 export const listSizePetDefault = ["Pequeño", "Mediano", "Grande"];
 
-export const formatDate = (date: string) => {
-  const formattedDate = new Date(date).toLocaleDateString("es-es", {
+export const formattedDate = (date: string) =>
+  new Date(date).toLocaleDateString("es-es", {
     weekday: "long",
     year: "numeric",
     month: "short",
     day: "numeric",
   });
 
-  const formattedTime = new Date(date).toLocaleTimeString("es-es", {
+export const formattedTime = (date: string) =>
+  new Date(date).toLocaleTimeString("es-es", {
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
   });
 
-  return `${formattedDate} ${formattedTime}`;
+export const formatDate = (date: string) => {
+  return `${formattedDate(date)} ${formattedTime(date)}`;
 };
 export function getImageByTypePet(typePet: Patient["typePet"]) {
   const position = listTypePetDefault.findIndex((value) => value === typePet);
@@ -85,5 +87,5 @@ export const formatMoney = (money: number): string =>
   new Intl.NumberFormat("es-CO", {
     style: "currency",
     currency: "COP",
-    minimumFractionDigits: 0, 
+    minimumFractionDigits: 0,
   }).format(money);
