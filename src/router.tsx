@@ -8,6 +8,7 @@ import DashBoard from "./views/DashBoard";
 import ViewPatients from "./views/ViewPatients";
 import ViewHistories from "./views/ViewHistories";
 import ViewProducts from "./views/ViewProducts";
+import ViewServices from "./views/ViewServices";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -41,10 +42,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/historias/ver-historias",
-        element:<ViewHistories />
-      },   {
+        element: <ViewHistories />,
+      },
+      {
         path: "/dashboard/productos/ver-productos",
-        element:<ViewProducts />
+        element: <ViewProducts />,
+      },
+      {
+        path: "/dashboard/servicios/ver-servicios",
+        element: <ViewServices />,
       },
     ],
   },

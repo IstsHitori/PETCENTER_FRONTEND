@@ -8,14 +8,11 @@ import medical from "/medical.png";
 import producto from "/products.png";
 import { NavLink } from "react-router-dom";
 import settings from "/settings.png";
+import services from "/vaccine.png";
 import { useVeterinarieStore } from "../stores/useVeterinarieStore";
 import Acordion from "./Acordion";
 import { useLocation } from "react-router-dom";
-import {
-  dataProducts,
-  dataPatients,
-  dataVaccine,
-} from "@/helpers";
+import { dataProducts, dataPatients, dataVaccine } from "@/helpers";
 
 export default function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -187,7 +184,17 @@ export default function Header() {
             </NavLink>
           </li>
           <li>
-            <Acordion data={dataVaccine} />
+            <NavLink
+              className={`${
+                pathname === "/dashboard/servicios/ver-servicios"
+                  ? "font-semibold underline bg-zinc-100"
+                  : "hover:bg-zinc-100"
+              } flex p-2 transition-all rounded-md items-center text-sm gap-4`}
+              to={"/dashboard/servicios/ver-servicios"}
+            >
+              <img src={services} alt="servicios" width={20} />
+              Servicios
+            </NavLink>
           </li>
           <li>
             <NavLink
