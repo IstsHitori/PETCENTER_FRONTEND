@@ -10,10 +10,18 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { formatMoney, formattedDate, formattedTime } from "@/helpers";
 import { CalendarIcon, ClockIcon, PawPrintIcon } from "lucide-react";
+import { useVeterinarieStore } from "@/stores/useVeterinarieStore";
 
 export default function ServiceDetails({ service }: { service: Service }) {
-  const { name, price, patient, state, date, product, days, type } = service;
+  const { name, price, patient, state, date, product, days, type, _id } =
+    service;
+  const patchStateService = useVeterinarieStore(
+    (state) => state.patchStateService
+  );
 
+  const handleChangeState = async (state: Service["state"]) => {
+    await patchStateService(_id, state);
+  };
   return (
     <Card className="w-[350px] overflow-hidden">
       <CardHeader className="pb-4">
@@ -35,8 +43,10 @@ export default function ServiceDetails({ service }: { service: Service }) {
           </div>
           <Badge
             variant={state === "pagado" ? "outline" : "destructive"}
-            className="capitalize"
-            
+            className="capitalize cursor-pointer"
+            onClick={() =>
+              handleChangeState(state === "no pagado" ? "pagado" : "no pagado")
+            }
           >
             {state}
           </Badge>
@@ -80,7 +90,7 @@ export default function ServiceDetails({ service }: { service: Service }) {
             </>
           )}
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium">Precio del servicio</span>
+            <span className="text-sm font-medium">Precio total del servicio</span>
             <span className="text-sm font-semibold text-primary">
               {formatMoney(price)}
             </span>

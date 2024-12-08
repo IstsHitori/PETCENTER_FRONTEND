@@ -4,15 +4,25 @@ import { useEffect, useState } from "react";
 import { useVeterinarieStore } from "@/stores/useVeterinarieStore";
 import ServiceDetails from "./ServiceDetails";
 import { Service } from "@/types/ServiceTypes";
+import ModalAddService from "./ModalAddService";
 
 export default function MainServices() {
   const services = useVeterinarieStore((state) => state.services);
+  const isActiveModalAddService = useVeterinarieStore(
+    (state) => state.isActiveModalAddService
+  );
+  const setModalAddService = useVeterinarieStore(
+    (state) => state.setModalAddService
+  );
 
   const [filter, setFilter] = useState<Service["state"] | "todos">("todos");
   const [servicesFilter, setServicesFilter] = useState([...services]);
   const [searchPatient, setSearchPatient] = useState("");
 
-  const filterServices = (term: string, category: Service["state"] | "todos") => {
+  const filterServices = (
+    term: string,
+    category: Service["state"] | "todos"
+  ) => {
     const filtered = services.filter(
       (serv) =>
         (serv.patient.name.toLowerCase().includes(term) ||
@@ -29,13 +39,11 @@ export default function MainServices() {
   const handleSearchChange = (term: string) => {
     setSearchPatient(term.toLowerCase());
   };
-  
 
   useEffect(() => {
     filterServices(searchPatient, filter);
   }, [filter, searchPatient, services]);
 
-  console.log(servicesFilter)
   return (
     <div className="mt-4">
       <aside className="flex items-center justify-between">
@@ -47,6 +55,7 @@ export default function MainServices() {
           >
             Todos
           </Button>
+
           <Button
             variant={filter === "pagado" ? "default" : "outline"}
             className="h-8"
@@ -63,13 +72,15 @@ export default function MainServices() {
             No pagados
           </Button>
         </div>
+        <ModalAddService />
         <Input
           className="max-w-[400px]"
           placeholder="Buscar por nombre de paciente o propietario"
           onChange={(e) => handleSearchChange(e.target.value)}
         />
       </aside>
-      <section className="mt-2 grid grid-cols-2 xl:grid-cols-3 gap-2 max-h-[400px] xl:max-h-[800px] overflow-y-auto">
+
+      <section className="mt-2 grid grid-cols-2 xl:grid-cols-3 gap-4 max-h-[400px] xl:max-h-[800px] overflow-y-auto">
         {servicesFilter.map((service) => (
           <ServiceDetails key={service._id} service={service} />
         ))}
