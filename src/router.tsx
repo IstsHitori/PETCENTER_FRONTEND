@@ -9,6 +9,7 @@ import ViewPatients from "./views/ViewPatients";
 import ViewHistories from "./views/ViewHistories";
 import ViewProducts from "./views/ViewProducts";
 import ViewServices from "./views/ViewServices";
+import ViewOrders from "./views/ViewOrders";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/servicios/ver-servicios",
         element: <ViewServices />,
+      },
+      {
+        path: "/dashboard/ordenes/ver-ordenes",
+        element: <ViewOrders />,
       },
     ],
   },

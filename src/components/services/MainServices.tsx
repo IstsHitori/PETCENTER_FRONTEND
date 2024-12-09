@@ -8,12 +8,6 @@ import ModalAddService from "./ModalAddService";
 
 export default function MainServices() {
   const services = useVeterinarieStore((state) => state.services);
-  const isActiveModalAddService = useVeterinarieStore(
-    (state) => state.isActiveModalAddService
-  );
-  const setModalAddService = useVeterinarieStore(
-    (state) => state.setModalAddService
-  );
 
   const [filter, setFilter] = useState<Service["state"] | "todos">("todos");
   const [servicesFilter, setServicesFilter] = useState([...services]);
@@ -80,7 +74,7 @@ export default function MainServices() {
         />
       </aside>
 
-      <section className="mt-2 grid grid-cols-2 xl:grid-cols-3 gap-4 max-h-[400px] xl:max-h-[800px] overflow-y-auto">
+      <section className="mt-4 grid grid-cols-2 2xl:grid-cols-4 gap-4 max-h-[450px] 2xl:max-h-[880px] overflow-y-auto">
         {servicesFilter.map((service) => (
           <ServiceDetails key={service._id} service={service} />
         ))}

@@ -10,7 +10,10 @@ export const CustomerSchema = object({
 
 export const ItemSchema = object({
   _id: string(),
-  product: string(),
+  product: object({
+    _id: string(),
+    name: string(),
+  }),
   quantity: number(),
   price: number(),
 });
@@ -19,8 +22,11 @@ export const OrderSchema = object({
   _id: string(),
   customer: CustomerSchema,
   items: array(ItemSchema),
-  total_amunt: number(),
+  total_amount: number(),
   date: string(),
+  payment_method: string(),
 });
 
-export const OrdersSchema = array(OrderSchema);
+export const OrdersSchema = object({
+  orders: array(OrderSchema),
+});

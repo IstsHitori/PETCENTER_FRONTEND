@@ -199,14 +199,14 @@ export default function Header() {
           <li>
             <NavLink
               className={`${
-                pathname === "/veterinarios/ver-veterinarios"
+                pathname === "/dashboard/ordenes/ver-ordenes"
                   ? "font-semibold underline bg-zinc-200"
                   : "hover:bg-zinc-100"
               } flex p-2 transition-all rounded-md items-center text-sm gap-4`}
-              to={"/veterinarios/ver-veterinarios"}
+              to={"/dashboard/ordenes/ver-ordenes"}
             >
               <img src={person} alt="veterinarios" width={20} />
-              Ver veterinarios
+              Ordenes
             </NavLink>
           </li>
         </ul>

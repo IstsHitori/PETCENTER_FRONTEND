@@ -5,10 +5,17 @@ import { createPatientSlice, IPatientSlice } from "./PatientSlice";
 import { createProductSlice, IProductSlice } from "./ProductSlice";
 import { createHistorySlice, IHistorySlice } from "./HistorySlice";
 import { createCategorySlice, ICategorySlice } from "./CategorySlice";
-import { createServiceSlice,IServiceSlice } from "./ServiceSlice";
+import { createServiceSlice, IServiceSlice } from "./ServiceSlice";
+import { createOrderSlice, IOrderSlice } from "./OrderSlice";
 
 export const useVeterinarieStore = create<
-  IAuthSlice & IPatientSlice & IHistorySlice & IProductSlice & ICategorySlice & IServiceSlice
+  IAuthSlice &
+    IPatientSlice &
+    IHistorySlice &
+    IProductSlice &
+    ICategorySlice &
+    IServiceSlice &
+    IOrderSlice
 >()(
   devtools((...a) => ({
     ...createAuthSlice(...a),
@@ -17,5 +24,6 @@ export const useVeterinarieStore = create<
     ...createProductSlice(...a),
     ...createCategorySlice(...a),
     ...createServiceSlice(...a),
+    ...createOrderSlice(...a),
   }))
 );
