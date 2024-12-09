@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import ModalAddOrder from "@/components/orders/ModalAddOrder";
 import { Receipt } from "@/components/orders/Receipt";
 import { useVeterinarieStore } from "@/stores/useVeterinarieStore";
 import { Order } from "@/types/OrderTypes";
 import { useEffect, useState } from "react";
+import { LuUserRoundSearch } from "react-icons/lu";
+
 export default function MainOrders() {
   const orders = useVeterinarieStore((state) => state.orders);
   const [filter, setFilter] = useState("todos");
@@ -64,8 +65,8 @@ export default function MainOrders() {
             Transferencia
           </Button>
         </div>
-        <div className="flex items-center gap-8">
-          <ModalAddOrder />
+        <div className="flex items-center gap-4">
+          <LuUserRoundSearch />
           <Input
             className="w-[400px]"
             placeholder="Buscar factura por orden del cliente"
@@ -73,7 +74,7 @@ export default function MainOrders() {
           />
         </div>
       </aside>
-      <div className="grid mt-3 grid-cols-2 2xl:grid-cols-3 2xl:max-h-[900px] max-h-[580px] overflow-auto">
+      <div className="grid mt-3 grid-cols-2 2xl:grid-cols-3 2xl:max-h-[900px] max-h-[470px] overflow-auto">
         {ordersFilter.map((order) => (
           <Receipt key={order._id} order={order} />
         ))}

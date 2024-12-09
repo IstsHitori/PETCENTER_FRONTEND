@@ -1,6 +1,8 @@
 
 export default function ModalAddOrder() {
   return (
-    <div>ModalAddService</div>
+    <div>
+      <h1 className="text-2xl font-medium">Crear orden</h1>
+    </div>
   )
 }

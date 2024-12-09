@@ -10,6 +10,7 @@ import ViewHistories from "./views/ViewHistories";
 import ViewProducts from "./views/ViewProducts";
 import ViewServices from "./views/ViewServices";
 import ViewOrders from "./views/ViewOrders";
+import ViewAddOrder from "./views/ViewAddOrder";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/ordenes/ver-ordenes",
         element: <ViewOrders />,
+      },
+      {
+        path: "/dashboard/ordenes/crear-orden",
+        element: <ViewAddOrder />,
       },
     ],
   },

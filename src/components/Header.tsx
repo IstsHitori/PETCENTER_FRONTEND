@@ -13,6 +13,7 @@ import { useVeterinarieStore } from "../stores/useVeterinarieStore";
 import Acordion from "./Acordion";
 import { useLocation } from "react-router-dom";
 import { dataProducts, dataPatients, dataVaccine } from "@/helpers";
+import { MdAddShoppingCart } from "react-icons/md";
 
 export default function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -130,7 +131,6 @@ export default function Header() {
 
         <ul className="DESKTOP-MENU hidden lg:text-md mt-2 md:flex flex-col space-y-1">
           <li></li>
-
           <li>
             <NavLink
               className={`${
@@ -200,13 +200,26 @@ export default function Header() {
             <NavLink
               className={`${
                 pathname === "/dashboard/ordenes/ver-ordenes"
-                  ? "font-semibold underline bg-zinc-200"
+                  ? "font-semibold underline bg-zinc-100"
                   : "hover:bg-zinc-100"
               } flex p-2 transition-all rounded-md items-center text-sm gap-4`}
               to={"/dashboard/ordenes/ver-ordenes"}
             >
               <img src={person} alt="veterinarios" width={20} />
               Ordenes
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className={`${
+                pathname === "/dashboard/ordenes/crear-orden"
+                  ? "font-semibold underline bg-zinc-100"
+                  : "hover:bg-zinc-100"
+              } flex p-2 transition-all rounded-md items-center text-sm gap-4`}
+              to={"/dashboard/ordenes/crear-orden"}
+            >
+              <MdAddShoppingCart className="text-xl" />
+              Crear orden
             </NavLink>
           </li>
         </ul>
