@@ -6,6 +6,7 @@ import { Input } from "../ui/input";
 import ProductToAdd from "./ProductToAdd";
 import ModalDetailsProducts from "../products/ModalDetailsProducts";
 import { Category } from "@/types/CategoryTypes";
+import CarProducts from "./CarProducts";
 export default function MainAddOrder() {
   const products = useVeterinarieStore((state) => state.products);
   const categories = useVeterinarieStore((state) => state.categories);
@@ -39,14 +40,14 @@ export default function MainAddOrder() {
   return (
     <section className="grid grid-cols-2">
       {/* Para las categorias y los productos */}
-      <div>
+      <div className=" max-w-2xl 2xl:max-w-5xl ">
         {/* Las categorias */}
         <aside className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <p className="font-medium">Categorías</p>
             <div className=" space-x-1 max-w-md p-3 max-h-[11rem] xl:max-h-[400px] overflow-auto flex items-center">
               {categories.map((cat, index) => {
-                if (index < 3) {
+                if (index < 2) {
                   return (
                     <div
                       key={cat._id}
@@ -70,7 +71,7 @@ export default function MainAddOrder() {
           <div className="flex items-center gap-2">
             <IoSearchOutline />
             <Input
-              className="w-[20rem]"
+              className=""
               placeholder="Busca el producto por su nombre"
               onChange={handleSearch}
             />
@@ -84,7 +85,7 @@ export default function MainAddOrder() {
         </div>
       </div>
       {/* Para la factura */}
-      <div></div>
+      <CarProducts />
       {isActiveModalDetailsProduct && <ModalDetailsProducts />}
     </section>
   );

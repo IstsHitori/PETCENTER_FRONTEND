@@ -1,13 +1,7 @@
 import { formatMoney } from "@/helpers";
 import { Item } from "@/types/OrderTypes";
 
-export const ProductsTable = ({
-  items,
-  total,
-}: {
-  items: Item[];
-  total: number;
-}) => {
+export const ProductsTable = ({ items }: { items: Item[] }) => {
   return (
     <div className="overflow-x-auto mb-4">
       <table className="w-full text-sm">
