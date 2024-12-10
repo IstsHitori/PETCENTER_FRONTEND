@@ -61,7 +61,9 @@ export default function MainProducts() {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("todos");
-  const [sortCriteria, setSortCriteria] = useState("");
+  const [sortCriteria, setSortCriteria] = useState<
+    "name" | "price" | "quantity"
+  >("" as "name");
   const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
@@ -87,7 +89,7 @@ export default function MainProducts() {
     setFilteredProducts(filtered);
   };
 
-  const handleSortChange = (value: string) => {
+  const handleSortChange = (value: "name" | "price" | "quantity") => {
     if (value === sortCriteria) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
@@ -106,8 +108,8 @@ export default function MainProducts() {
 
     if (sortCriteria) {
       filtered.sort((a, b) => {
-        const aValue = a[sortCriteria] as string;
-        const bValue = b[sortCriteria] as string;
+        const aValue = a[sortCriteria];
+        const bValue = b[sortCriteria];
 
         if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
         if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
