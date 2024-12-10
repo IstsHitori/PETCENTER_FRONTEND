@@ -261,7 +261,9 @@ export default function MainProducts() {
               <CardContent className="p-4">
                 <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
                 <div className="flex justify-between items-center">
-                  <span className="text-md font-bold">{formatMoney(product.price)}</span>
+                  <span className="text-md font-bold">
+                    {formatMoney(product.price)}
+                  </span>
                   <span className="text-sm text-gray-500">
                     Stock: {product.quantity}
                   </span>

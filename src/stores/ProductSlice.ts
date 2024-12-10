@@ -109,9 +109,8 @@ export const createProductSlice: StateCreator<IProductSlice> = (set, get) => ({
       toast.success(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error("Ha habido un error al eliminar el producto");
+        toast.error(error.response?.data.msg);
       }
-      console.log(error);
     }
   },
   editProduct: async (newProduct, idProduct) => {
