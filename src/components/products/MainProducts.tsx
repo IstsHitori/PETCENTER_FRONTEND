@@ -264,7 +264,15 @@ export default function MainProducts() {
                   <span className="text-md font-bold">
                     {formatMoney(product.price)}
                   </span>
-                  <span className="text-sm text-gray-500">
+                  <span
+                    className={`text-sm ${
+                      product.quantity < 10
+                        ? product.quantity < 5
+                          ? "text-red-500"
+                          : "text-yellow-500"
+                        : "text-gray-500"
+                    }`}
+                  >
                     Stock: {product.quantity}
                   </span>
                 </div>

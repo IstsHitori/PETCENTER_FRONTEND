@@ -23,6 +23,7 @@ export default function CarProducts() {
 
   const carItems = useVeterinarieStore((state) => state.carItems);
   const products = useVeterinarieStore((state) => state.products);
+  const fetchProducts = useVeterinarieStore((state) => state.fetchProducts);
   const handleDeleteItemToCar = useVeterinarieStore(
     (state) => state.handleDeleteItemToCar
   );
@@ -56,7 +57,7 @@ export default function CarProducts() {
   
 
     await createOrder(newOrder);
-
+    await fetchProducts();
     setCustomer({
       name: "",
       nit: 0,

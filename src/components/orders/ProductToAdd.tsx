@@ -33,7 +33,7 @@ export default function ProductToAdd({ product }: { product: Product }) {
         <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
         <div className="flex justify-between items-center">
           <span className="text-md font-bold">{formatMoney(price)}</span>
-          <span className="text-sm text-gray-500">Stock: {quantity}</span>
+          <span className={`text-sm ${quantity < 10 ? quantity < 5 ? "text-red-500" : "text-yellow-500" : "text-gray-500"}`}>Stock: {quantity}</span>
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0 flex space-y-2 flex-wrap">
