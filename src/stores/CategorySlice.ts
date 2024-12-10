@@ -6,7 +6,7 @@ import { CategoriesScehma } from "@/schemas/Category";
 import clientAxios from "@/config/axios";
 import { config } from "@/helpers/fetchAPI";
 import axios from "axios";
-import { Id, toast } from "react-toastify";
+import { toast } from "react-toastify";
 export interface ICategorySlice {
   categories: Category[];
   isActiveModalAddCategory: boolean;

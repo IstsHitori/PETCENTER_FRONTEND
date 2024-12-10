@@ -104,13 +104,16 @@ export default function MainProducts() {
           product.category.name === selectedCategory)
     );
 
-    filtered.sort((a, b) => {
-      if (a[sortCriteria] < b[sortCriteria])
-        return sortOrder === "asc" ? -1 : 1;
-      if (a[sortCriteria] > b[sortCriteria])
-        return sortOrder === "asc" ? 1 : -1;
-      return 0;
-    });
+    if (sortCriteria) {
+      filtered.sort((a, b) => {
+        const aValue = a[sortCriteria] as string;
+        const bValue = b[sortCriteria] as string;
+
+        if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+        if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
     setFilteredProducts(filtered);
   };
   //---

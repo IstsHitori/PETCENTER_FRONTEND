@@ -13,7 +13,7 @@ export const ReceiptItems = ({
     <div>
       <h2 className="font-semibold text-gray-700 mb-3">Detalle de venta</h2>
       <div className="space-y-2 mb-4">
-        <ProductsTable items={items} total={total} />
+        <ProductsTable items={items} />
       </div>
       <div className="flex justify-between items-center bg-blue-50 p-3 rounded-lg">
         <span className="font-bold text-blue-700">Total</span>
