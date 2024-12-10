@@ -1,4 +1,6 @@
+import { Order } from "@/types/OrderTypes";
 import { Patient } from "@/types/PatientTypes";
+import { Service } from "@/types/ServiceTypes";
 
 export const dataProducts = {
   text_header: "Productos",
@@ -89,3 +91,128 @@ export const formatMoney = (money: number): string =>
     currency: "COP",
     minimumFractionDigits: 0,
   }).format(money);
+
+export const calculateRevenueChange = (
+  orders: Order[],
+  services: Service[]
+): {
+  currentTotal: number;
+  previousTotal: number;
+  percentageChange: string;
+} => {
+  const currentDate = new Date();
+
+  // Mes actual
+  const startOfCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  );
+
+  // Mes anterior
+  const startOfPreviousMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() - 1,
+    1
+  );
+  const endOfPreviousMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    0
+  );
+
+  // Calcular ingresos de ordenes del mes actual
+  const currentMonthOrdersRevenue = orders
+    .filter((order) => new Date(order.date) >= startOfCurrentMonth)
+    .reduce((total, order) => total + order.total_amount, 0);
+
+  // Calcular ingresos de servicios del mes actual
+  const currentMonthServicesRevenue = services
+    .filter((service) => new Date(service.date) >= startOfCurrentMonth) // Assuming a 'date' property in Service
+    .reduce((total, service) => total += service.state === "pagado" ? service.price : 0, 0);
+
+  // Calcular ingresos totales del mes actual
+  const currentMonthTotalRevenue =
+    currentMonthOrdersRevenue + currentMonthServicesRevenue;
+
+  // Filtro similar para ingresos del mes anterior (orders and services)
+  const previousMonthOrdersRevenue = orders
+    .filter(
+      (order) =>
+        new Date(order.date) >= startOfPreviousMonth &&
+        new Date(order.date) <= endOfPreviousMonth
+    )
+    .reduce((total, order) => total + order.total_amount, 0);
+
+  const previousMonthServicesRevenue = services
+    .filter(
+      (service) =>
+        new Date(service.date) >= startOfPreviousMonth &&
+        new Date(service.date) <= endOfPreviousMonth
+    ) // Assuming a 'date' property in Service
+    .reduce((total, service) => total + service.price, 0);
+
+  const previousMonthTotalRevenue =
+    previousMonthOrdersRevenue + previousMonthServicesRevenue;
+
+  // Calcular el cambio porcentual
+  const percentageChange =
+    previousMonthTotalRevenue > 0
+      ? ((currentMonthTotalRevenue - previousMonthTotalRevenue) /
+          previousMonthTotalRevenue) *
+        100
+      : currentMonthTotalRevenue > 0
+      ? 100
+      : 0;
+
+  return {
+    currentTotal: currentMonthTotalRevenue,
+    previousTotal: previousMonthTotalRevenue,
+    percentageChange: `${percentageChange.toFixed(1)}%`,
+  };
+};
+
+
+export function calculateSimpleMonthlyRevenue(
+  orders: Order[],
+  services: Service[],
+  year: number
+): Array<{ name: string; total: number }> {
+  const MONTHS = [
+    "Ene",
+    "Feb",
+    "Mar",
+    "Abr",
+    "May",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dic",
+  ];
+
+  return MONTHS.map((name, index) => {
+    const monthOrders = orders
+      .filter(
+        (order) =>
+          new Date(order.date).getMonth() === index &&
+          new Date(order.date).getFullYear() === year
+      )
+      .reduce((sum, order) => sum + order.total_amount, 0);
+
+    const monthServices = services
+      .filter(
+        (service) =>
+          new Date(service.date).getMonth() === index &&
+          new Date(service.date).getFullYear() === year
+      )
+      .reduce((sum, service) => sum += service.state === "pagado" ? service.price : 0, 0);
+
+    return {
+      name,
+      total: monthOrders + monthServices,
+    };
+  });
+}
