@@ -3,6 +3,7 @@ import gato from "/gato.svg";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import clientAxios from "../config/axios";
+import axios from "axios";
 export default function ConfirmAccount() {
   const [token, setToken] = useState({
     n1: "",
@@ -24,7 +25,9 @@ export default function ConfirmAccount() {
       });
       toast.success(response.data);
     } catch (error) {
-      toast.error(error.response.data.error);
+      if(axios.isAxiosError(error)){
+        toast.error(error.response?.data.error);
+      }
     }
   };
 

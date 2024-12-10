@@ -6,6 +6,7 @@ import { IRegister } from "../types";
 import { NavLink } from "react-router-dom";
 import clientAxios from "../config/axios";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const Register = () => {
   const {
@@ -20,7 +21,9 @@ const Register = () => {
       const response = await clientAxios.post("/auth/create-account", data);
       toast.success(response.data);
     } catch (error) {
-      toast.error(error.response.data.error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error);
+      }
       reset();
       console.log(error);
     }

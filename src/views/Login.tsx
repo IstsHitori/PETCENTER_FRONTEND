@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
 import { useVeterinarieStore } from "../stores/useVeterinarieStore";
+import axios from "axios";
 export default function Login() {
   const {
     register,
@@ -38,7 +39,9 @@ export default function Login() {
               setToken(localStorage.getItem("pet-veterinaria-token") as string);
             }
           } catch (error) {
-            toast.error(error.response.data.error);
+            if (axios.isAxiosError(error)) {
+              toast.error(error.response?.data.error);
+            }
           }
         })}
       >
