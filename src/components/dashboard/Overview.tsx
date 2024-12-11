@@ -33,6 +33,7 @@ export function Overview({
           tickLine={false}
           axisLine={false}
         />
+        
         <YAxis
           stroke="#888888"
           fontSize={12}
